@@ -1,0 +1,18 @@
+# WebStorm
+.idea
+
+# VSCode
+.code
+
+# Env
+.env
+
+# Project docs
+docs
+
+# Node
+node_modules
+
+# Yarn
+yarn.lock
+yarn-error.log
