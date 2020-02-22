@@ -8,21 +8,7 @@ A `Predicate` is a model with one or more functions that return a boolean value.
 
 Simple predicate examples include checking if the current date/time falls after a specific timestamp, whether a given Widget plugin is enabled, or of the base page has Wordpress running.
 
-A predicate's `fn` property should be one or more very simple, immutable functions. For example, here's the entire code of the [`HasBootstrap`](src/predicates/HasBootstrap.ts) predicate:
-
-```ts
-import { Predicate } from 'types/predicate';
-
-/**
- * Determine if Bootstrap is running.
- */
-export const HasBootstrap = new Predicate({
-  fn: () => !!window['bootstrap'],
-  name: 'HasBootstrap'
-});
-
-export default HasBootstrap;
-```
+A predicate's `fn` property should be one or more very simple, immutable functions. See [examples](#examples) for more info.
 
 ## Extension
 
@@ -30,49 +16,7 @@ export default HasBootstrap;
 
 An `extension` is a basic model that defines one or more `action` functions that are executed to perform an arbitrary action, such as execute JS, change CSS, etc. An extension can be (optionally) assigned one or more predicates, the truthiness of which determine if the extension is valid and its action is to be executed.
 
-For example, here is the code of the [`css/bootstrap/AddScreenReaderOnlyClasses`](src/extensions/css/bootstrap/AddScreenReaderOnlyClasses.ts) extension, which adds `sr-only` and `sr-only-focusable` classes to a collection of DOM element types. Since these classes are from Bootstrap, it uses the above `HasBootstrap` predicate to determine validity.
-
-```ts
-import { Extension } from 'types/extension';
-import HasBootstrap from 'predicates/HasBootstrap';
-import Css from '@/utility/css';
-
-export const AddScreenReaderOnlyClasses = new Extension({
-  action: () => {
-    const nodes = document.querySelectorAll(
-      [
-        'button',
-        'label',
-        'input',
-        'span',
-        'a',
-        'h1',
-        'h2',
-        'h3',
-        'h4',
-        'h5',
-        'h6'
-      ].join(', ')
-    );
-    if (!nodes || nodes.length === 0) return;
-
-    nodes.forEach((element: Element) => {
-      // sr-only
-      if (!Css.hasClass({ node: element, name: 'sr-only' })) {
-        Css.addClass({ node: element, name: 'sr-only' });
-      }
-      // sr-only-focusable
-      if (!Css.hasClass({ node: element, name: 'sr-only-focusable' })) {
-        Css.addClass({ node: element, name: 'sr-only-focusable' });
-      }
-    });
-  },
-  name: 'AddScreenReaderOnlyClasses',
-  predicate: HasBootstrap
-});
-
-export default AddScreenReaderOnlyClasses;
-```
+See [examples](#examples) for more info.
 
 ## Development
 
@@ -139,3 +83,20 @@ export default extensions;
 ```
 
 6. Finally, just rebuild the project and any dependency projects (i.e. `wcasg-ada-app`). When the Widget loads it will iterate through all extensions and execute all actions for which the predicates passed, if applicable.
+
+## Examples
+
+### Disable All jQuery Animations
+
+- Predicate: [HasJquery](src/predicates/HasJquery.ts)
+- Extension: [js/jquery/DisableAnimations](src/extensions/js/jquery/DisableAnimations.ts)
+
+### Add Missing Aria Labels in Wordpress
+
+- Predicate: [HasWordpress](src/predicates/HasWordpress.ts)
+- Extension: [js/wordpress/AddAriaLabels](src/extensions/js/wordpress/AddAriaLabels.ts)
+
+### Enable Screen Reader Only Visuals in Bootstrap
+
+- Predicate: [HasBootstrap](src/predicates/HasBootstrap.ts)
+- Extension: [css/bootstrap/AddScreenReaderOnlyClasses](src/extensions/css/bootstrap/AddScreenReaderOnlyClasses.ts)
