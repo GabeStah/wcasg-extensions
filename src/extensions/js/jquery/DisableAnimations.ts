@@ -7,6 +7,7 @@ export const DisableAnimations = new Extension({
       window['jQuery'].fx.off = true;
     }
   },
+  description: 'Disables all jQuery animations.',
   name: 'DisableAnimations',
   predicate: HasJquery
 });

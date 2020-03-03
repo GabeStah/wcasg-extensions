@@ -12,6 +12,12 @@ export interface IExtension {
   // Actual extension actions to perform.
   action: ActionFunctionType;
 
+  // Description of what the extension does.
+  description: string;
+
+  // Enabled
+  enabled: boolean;
+
   // Timestamp when extension fired, if applicable.
   firedAt?: Date | null;
 
@@ -43,18 +49,24 @@ export interface IExtension {
 
 export interface IExtensionsParams {
   action: ActionFunctionType;
+  description: string;
+  enabled?: boolean;
   name?: string;
   predicate?: Predicate | Array<Predicate>;
 }
 
 export class Extension implements IExtension {
   action: ActionFunctionType;
+  description: string = '';
+  enabled: boolean = true;
   firedAt?: Date | null;
   name: string = '';
   predicate?: Predicate | Array<Predicate>;
 
   constructor(params: IExtensionsParams) {
     this.action = params.action;
+    this.description = params.description;
+    this.enabled = params.enabled !== undefined ? params.enabled : true;
     this.name = params.name ? params.name : '';
     this.predicate = params.predicate;
   }
@@ -102,5 +114,13 @@ export class Extension implements IExtension {
       this.predicate.run();
     }
     return true;
+  }
+
+  toJson(): string {
+    return JSON.stringify(this.toObject());
+  }
+
+  toObject(): any {
+    return this;
   }
 }

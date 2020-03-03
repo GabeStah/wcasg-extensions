@@ -25,13 +25,13 @@ See [examples](#examples) for more info.
 
 ### Adding to WCASG Widget App
 
-1. Navigate to root `wcasg-ada-app-extensions` directory.
+1. Navigate to root `wcasg/extensions` directory.
 2. Run `yarn link`.
-3. Navigate to root `wcasg-ada-app` directory.
-4. Run `yarn link wcasg-ada-app-extensions` to create local symbolic link.
-5. Import extensions package anywhere: `import Extensions from 'wcasg-ada-app-extensions';`
+3. Navigate to root `wcasg/widget` directory.
+4. Run `yarn link wcasg-extensions` to create local symbolic link.
+5. Import extensions package anywhere: `import Extensions from 'wcasg-extensions';`
 6. Execute all extensions in code with: `Extensions.manager.runExtensions();`.
-7. Rebuild `wcasg-ada-app` with `yarn run build`.
+7. Rebuild `wcasg/widget` with `yarn run build`.
 
 ## Creating a New Extension
 

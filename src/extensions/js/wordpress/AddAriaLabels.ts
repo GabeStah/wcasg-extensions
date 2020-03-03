@@ -40,8 +40,10 @@ export const AddMissingAriaLabels = new Extension({
       });
     });
   },
+  description:
+    "Adds missing 'aria-label' attributes with most relevant text value to all buttons, labels, and primary text elements.",
   name: 'AddMissingAriaLabels',
-  predicate: HasWordpress
+  predicate: [HasWordpress]
 });
 
 export default AddMissingAriaLabels;

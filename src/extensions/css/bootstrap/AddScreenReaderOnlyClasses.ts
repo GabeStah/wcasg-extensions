@@ -32,6 +32,9 @@ export const AddScreenReaderOnlyClasses = new Extension({
       }
     });
   },
+  description:
+    "Adds 'sr-only' and 'sr-only-focusable' attributes to all buttons, labels, and primary text elements.",
+  enabled: false,
   name: 'AddScreenReaderOnlyClasses',
   predicate: HasBootstrap
 });
