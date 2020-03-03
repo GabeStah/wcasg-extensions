@@ -1,15 +1,23 @@
 import { Extension } from 'types/extension';
+interface IExtensionManager {
+    _extensions: Extension[];
+    _imports: any[];
+}
 interface IExtensionParams {
     extensions: Extension[];
-    logging?: boolean;
 }
-export declare class ExtensionManager {
+export declare class ExtensionManager implements IExtensionManager {
     _extensions: Extension[];
-    logging: boolean;
+    _imports: any[];
     constructor(params: IExtensionParams);
     get extensions(): Extension[];
+    get imports(): any[];
+    set imports(value: any[]);
     add(extension: Extension): void;
-    log(message: string): void;
+    addImports(extensions: any[]): void;
+    /**
+     * Run all 'enabled' Extensions.
+     */
     runExtensions(): void;
 }
 export {};

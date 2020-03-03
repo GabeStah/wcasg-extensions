@@ -74,12 +74,12 @@ export class Extension implements IExtension {
   predicatesPassed(): boolean {
     if (!this.predicate) return false;
     if (Array.isArray(this.predicate)) {
-      this.predicate.forEach((predicate: Predicate) => {
+      for (const predicate of this.predicate) {
         if (!predicate.passedAt) {
           Logger.log(`  Predicate '${predicate.name}' failed.`);
           return false;
         }
-      });
+      }
     } else {
       if (!this.predicate.passedAt) {
         Logger.log(`  Predicate '${this.predicate.name}' failed.`);

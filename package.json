@@ -4,6 +4,9 @@
   "author": "Gabe Wyatt <gabe@solarixdigital.com>",
   "repository": "git@gitlab.solarixdigital.com:solarix/wcasg/extensions.git",
   "license": "MIT",
+  "config": {
+    "outputDirectory": "dist"
+  },
   "main": "dist/index.js",
   "files": [
     "dist"
@@ -11,8 +14,9 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "rollup -c",
-    "watch": "rollup -c -w",
-    "postbuild": "gulp postbuild"
+    "postbuild": "gulp postbuild",
+    "prebuild": "gulp prebuild",
+    "watch": "rollup -c -w"
   },
   "dependencies": {
     "webpack": "^4.41.6",

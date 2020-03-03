@@ -58,11 +58,11 @@ export class Predicate implements IPredicate {
     if (!this.fn) return;
     this.passedAt = null;
     if (Array.isArray(this.fn)) {
-      this.fn.forEach((fn: PredicateFunction) => {
+      for (const fn of this.fn) {
         if (!fn()) {
           return;
         }
-      });
+      }
     } else {
       if (!this.fn()) {
         return;

@@ -3,8 +3,9 @@ import { Predicate } from 'types/predicate';
 export declare type ActionFunctionType = null | ActionFunction | Array<ActionFunction>;
 export interface IExtension {
     action: ActionFunctionType;
+    description: string;
+    enabled: boolean;
     firedAt?: Date | null;
-    logging: boolean;
     name: string;
     predicate?: Predicate | Array<Predicate>;
     beforeLoad?: ActionFunctionType;
@@ -18,18 +19,22 @@ export interface IExtension {
 }
 export interface IExtensionsParams {
     action: ActionFunctionType;
-    logging?: boolean;
+    description: string;
+    enabled?: boolean;
     name?: string;
     predicate?: Predicate | Array<Predicate>;
 }
 export declare class Extension implements IExtension {
     action: ActionFunctionType;
+    description: string;
+    enabled: boolean;
     firedAt?: Date | null;
-    logging: boolean;
     name: string;
     predicate?: Predicate | Array<Predicate>;
     constructor(params: IExtensionsParams);
     predicatesPassed(): boolean;
     run(): Date | void;
     runPredicates(): boolean;
+    toJson(): string;
+    toObject(): any;
 }
