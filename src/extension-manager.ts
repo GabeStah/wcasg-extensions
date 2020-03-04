@@ -1,5 +1,6 @@
 import { Extension } from 'types/extension';
 import Logger from '@/logger';
+import { Predicate } from 'types/predicate';
 
 interface IExtensionManager {
   _extensions: Extension[];
@@ -35,17 +36,77 @@ export class ExtensionManager implements IExtensionManager {
 
   addImports(extensions: any[]) {
     this.imports = extensions;
-    extensions.forEach(
-      ({
-        name,
-        imported,
-        pivot
-      }: {
-        name: string;
-        enabled: boolean;
-        imported: boolean;
-        pivot: any;
-      }) => {
+  }
+
+  processCustomImports() {
+    this.imports
+      .filter((extension: any) => !extension.imported)
+      .forEach(
+        ({
+          name,
+          description,
+          enabled,
+          pivot,
+          actions,
+          predicates
+        }: {
+          name: string;
+          description: string;
+          enabled: boolean;
+          pivot: any;
+          actions: any;
+          predicates: any;
+        }) => {
+          const { enabled_at } = pivot;
+          let enabledBySite = false;
+          if (enabled_at) {
+            enabledBySite = enabled_at && new Date(enabled_at) <= new Date();
+          }
+
+          // Check that no matching extension exists
+          const match = this.extensions.find(
+            (extension: Extension) => extension.name === name
+          );
+          if (!match) {
+            Logger.log(`Importing custom extension ${name}.`);
+
+            const actionCollection: any[] | null = [];
+            if (actions) {
+              actions.forEach((action: any) => {
+                actionCollection.push(Function(action.function));
+              });
+            }
+
+            const predicateCollection: Predicate[] | null = [];
+            if (predicates) {
+              predicates.forEach((predicate: any) => {
+                predicateCollection.push(
+                  new Predicate({
+                    fn: [() => predicate.function],
+                    name: predicate.name
+                  })
+                );
+              });
+            }
+
+            const extension = new Extension({
+              action: actions ? actionCollection : null,
+              description: description,
+              enabled: enabledBySite,
+              name: name,
+              predicate: predicates ? predicateCollection : undefined
+            });
+
+            this.add(extension);
+          }
+        }
+      );
+  }
+
+  processBuiltInImports() {
+    this.imports
+      .filter((extension: any) => extension.imported === true)
+      .forEach(({ name, pivot }: { name: string; pivot: any }) => {
         const { enabled_at } = pivot;
         let enabledBySite = false;
         if (enabled_at) {
@@ -64,8 +125,7 @@ export class ExtensionManager implements IExtensionManager {
           );
           match.enabled = enabledBySite;
         }
-      }
-    );
+      });
   }
 
   /**

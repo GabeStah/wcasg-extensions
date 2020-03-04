@@ -15,6 +15,8 @@ export declare class ExtensionManager implements IExtensionManager {
     set imports(value: any[]);
     add(extension: Extension): void;
     addImports(extensions: any[]): void;
+    processCustomImports(): void;
+    processBuiltInImports(): void;
     /**
      * Run all 'enabled' Extensions.
      */
