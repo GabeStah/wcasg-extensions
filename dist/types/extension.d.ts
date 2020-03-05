@@ -1,8 +1,9 @@
 import { ActionFunction } from 'types/function';
+import { Action } from 'types/action';
 import { Predicate } from 'types/predicate';
 export declare type ActionFunctionType = null | ActionFunction | Array<ActionFunction>;
 export interface IExtension {
-    action: ActionFunctionType;
+    action: Action | Array<Action>;
     description: string;
     enabled: boolean;
     firedAt?: Date | null;
@@ -18,14 +19,14 @@ export interface IExtension {
     afterWidgetExecute?: ActionFunctionType;
 }
 export interface IExtensionsParams {
-    action: ActionFunctionType;
+    action: Action | Array<Action>;
     description: string;
     enabled?: boolean;
     name?: string;
     predicate?: Predicate | Array<Predicate>;
 }
 export declare class Extension implements IExtension {
-    action: ActionFunctionType;
+    action: Action | Array<Action>;
     description: string;
     enabled: boolean;
     firedAt?: Date | null;
@@ -33,7 +34,8 @@ export declare class Extension implements IExtension {
     predicate?: Predicate | Array<Predicate>;
     constructor(params: IExtensionsParams);
     predicatesPassed(): boolean;
-    run(): Date | void;
+    execute(): Date | void;
+    runActions(): boolean;
     runPredicates(): boolean;
     toJson(): string;
     toObject(): any;

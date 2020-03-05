@@ -20,6 +20,6 @@ export declare class ExtensionManager implements IExtensionManager {
     /**
      * Run all 'enabled' Extensions.
      */
-    runExtensions(): void;
+    executeExtensions(): void;
 }
 export {};

@@ -3,6 +3,7 @@
 // WidgetLoad: When plugins load
 // PluginExecute: When plugins fire
 import { ActionFunction } from 'types/function';
+import { Action } from 'types/action';
 import { Predicate } from 'types/predicate';
 import Logger from '@/logger';
 
@@ -10,7 +11,7 @@ export type ActionFunctionType = null | ActionFunction | Array<ActionFunction>;
 
 export interface IExtension {
   // Actual extension actions to perform.
-  action: ActionFunctionType;
+  action: Action | Array<Action>;
 
   // Description of what the extension does.
   description: string;
@@ -48,7 +49,7 @@ export interface IExtension {
 }
 
 export interface IExtensionsParams {
-  action: ActionFunctionType;
+  action: Action | Array<Action>;
   description: string;
   enabled?: boolean;
   name?: string;
@@ -56,7 +57,7 @@ export interface IExtensionsParams {
 }
 
 export class Extension implements IExtension {
-  action: ActionFunctionType;
+  action: Action | Array<Action>;
   description: string = '';
   enabled: boolean = true;
   firedAt?: Date | null;
@@ -89,19 +90,30 @@ export class Extension implements IExtension {
     return true;
   }
 
-  run(): Date | void {
-    if (!this.action) return;
-    if (!this.predicatesPassed()) return;
-    this.firedAt = null;
-    if (Array.isArray(this.action)) {
-      this.action.forEach((action: ActionFunction) => {
-        action();
-      });
-    } else {
-      this.action();
+  execute(): Date | void {
+    this.runPredicates();
+    if (!this.predicatesPassed()) {
+      Logger.warn(`  Predicate(s) failed, cancelling.`);
+      return;
     }
+
+    this.firedAt = null;
+    Logger.log(`  Predicates passed, running actions.`);
+    this.runActions();
     this.firedAt = new Date();
     return this.firedAt;
+  }
+
+  runActions(): boolean {
+    if (!this.action) return false;
+    if (Array.isArray(this.action)) {
+      this.action.forEach((action: Action) => {
+        action.run();
+      });
+    } else {
+      this.action.run();
+    }
+    return true;
   }
 
   runPredicates(): boolean {

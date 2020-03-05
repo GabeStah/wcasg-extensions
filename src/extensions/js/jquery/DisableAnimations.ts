@@ -1,12 +1,9 @@
 import { Extension } from 'types/extension';
+import DisableJqueryFx from 'actions/DisableJqueryFx';
 import HasJquery from 'predicates/HasJquery';
 
 export const DisableAnimations = new Extension({
-  action: () => {
-    if (window['jQuery'] && window['jQuery'].fx) {
-      window['jQuery'].fx.off = true;
-    }
-  },
+  action: DisableJqueryFx,
   description: 'Disables all jQuery animations.',
   name: 'DisableAnimations',
   predicate: HasJquery

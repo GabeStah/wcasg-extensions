@@ -1,6 +1,9 @@
 import { Extension } from 'types/extension';
 import Logger from '@/logger';
 import { Predicate } from 'types/predicate';
+import LZString from 'lz-string';
+import DateUtility from '@/utility/date';
+import { Action } from 'types/action';
 
 interface IExtensionManager {
   _extensions: Extension[];
@@ -60,7 +63,8 @@ export class ExtensionManager implements IExtensionManager {
           const { enabled_at } = pivot;
           let enabledBySite = false;
           if (enabled_at) {
-            enabledBySite = enabled_at && new Date(enabled_at) <= new Date();
+            enabledBySite =
+              enabled_at && DateUtility.getUTCDate(enabled_at) <= new Date();
           }
 
           // Check that no matching extension exists
@@ -68,12 +72,19 @@ export class ExtensionManager implements IExtensionManager {
             (extension: Extension) => extension.name === name
           );
           if (!match) {
-            Logger.log(`Importing custom extension ${name}.`);
+            Logger.log(`Importing custom '${name}' extension.`);
 
-            const actionCollection: any[] | null = [];
+            const actionCollection: Action[] = [];
             if (actions) {
               actions.forEach((action: any) => {
-                actionCollection.push(Function(action.function));
+                actionCollection.push(
+                  new Action({
+                    fn: Function(
+                      LZString.decompressFromBase64(action.function)
+                    ),
+                    name: action.name
+                  })
+                );
               });
             }
 
@@ -82,7 +93,9 @@ export class ExtensionManager implements IExtensionManager {
               predicates.forEach((predicate: any) => {
                 predicateCollection.push(
                   new Predicate({
-                    fn: [() => predicate.function],
+                    fn: Function(
+                      LZString.decompressFromBase64(predicate.function)
+                    ),
                     name: predicate.name
                   })
                 );
@@ -90,7 +103,7 @@ export class ExtensionManager implements IExtensionManager {
             }
 
             const extension = new Extension({
-              action: actions ? actionCollection : null,
+              action: actionCollection,
               description: description,
               enabled: enabledBySite,
               name: name,
@@ -110,7 +123,8 @@ export class ExtensionManager implements IExtensionManager {
         const { enabled_at } = pivot;
         let enabledBySite = false;
         if (enabled_at) {
-          enabledBySite = enabled_at && new Date(enabled_at) <= new Date();
+          enabledBySite =
+            enabled_at && DateUtility.getUTCDate(enabled_at) <= new Date();
         }
 
         // Check for matching name
@@ -119,9 +133,9 @@ export class ExtensionManager implements IExtensionManager {
         );
         if (match && match.enabled !== enabledBySite) {
           Logger.log(
-            `${enabledBySite ? 'Enabling' : 'Disabling'} built-in ${
+            `${enabledBySite ? 'Enabling' : 'Disabling'} built-in '${
               match.name
-            } extension (site override).`
+            }' extension (site override).`
           );
           match.enabled = enabledBySite;
         }
@@ -131,20 +145,14 @@ export class ExtensionManager implements IExtensionManager {
   /**
    * Run all 'enabled' Extensions.
    */
-  runExtensions() {
+  executeExtensions() {
     this.extensions
       .filter((extension: Extension) => extension.enabled)
       .forEach((extension: Extension, index: number) => {
         Logger.log(
           `Executing '${extension.name ? extension.name : index}' extension.`
         );
-        extension.runPredicates();
-        if (extension.predicatesPassed()) {
-          Logger.log(`  Predicates passed, running actions.`);
-          extension.run();
-        } else {
-          Logger.warn(`  Predicate(s) failed, cancelling.`);
-        }
+        extension.execute();
       });
   }
 }

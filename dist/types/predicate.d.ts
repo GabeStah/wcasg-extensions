@@ -1,5 +1,5 @@
 import { PredicateFunction } from 'types/function';
-export declare type PredicateFunctionType = null | PredicateFunction | Array<PredicateFunction>;
+export declare type PredicateFunctionType = null | PredicateFunction | Array<PredicateFunction> | Function;
 export interface IPredicate {
     fn: PredicateFunctionType;
     name: string;

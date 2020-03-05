@@ -1,7 +1,7 @@
 import { ExtensionManager } from './extension-manager';
-import DisableAnimations from 'extensions/js/jquery/DisableAnimations';
 import AddMissingAriaLabels from 'extensions/js/wordpress/AddAriaLabels';
 import AddScreenReaderOnlyClasses from 'extensions/css/bootstrap/AddScreenReaderOnlyClasses';
+import DisableAnimations from 'extensions/js/jquery/DisableAnimations';
 
 const extensions = (function() {
   return {

@@ -10,6 +10,7 @@ module.exports = {
         root: ['./src'],
         alias: {
           '@': './src',
+          actions: './src/actions',
           config: './config',
           extensions: './src/extensions',
           predicates: './src/predicates',

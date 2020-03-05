@@ -19,6 +19,7 @@
     "watch": "rollup -c -w"
   },
   "dependencies": {
+    "lz-string": "^1.4.4",
     "webpack": "^4.41.6",
     "webpack-cli": "^3.3.11"
   },
@@ -35,6 +36,8 @@
     "@rollup/plugin-typescript": "^3.0.0",
     "@types/gulp": "^4.0.6",
     "babel-plugin-module-resolver": "^4.0.0",
+    "date-fns": "^2.10.0",
+    "date-fns-tz": "^1.0.10",
     "gulp": "^4.0.2",
     "gulp-cli": "^2.2.0",
     "gulp-typescript": "^6.0.0-alpha.1",

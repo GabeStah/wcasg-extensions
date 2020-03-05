@@ -7,7 +7,8 @@ import { PredicateFunction } from 'types/function';
 export type PredicateFunctionType =
   | null
   | PredicateFunction
-  | Array<PredicateFunction>;
+  | Array<PredicateFunction>
+  | Function;
 
 export interface IPredicate {
   // Actual extension actions to perform.
