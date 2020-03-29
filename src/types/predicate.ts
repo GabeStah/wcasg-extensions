@@ -3,12 +3,9 @@
 // WidgetLoad: When plugins load
 // PluginExecute: When plugins fire
 import { PredicateFunction } from 'types/function';
+import LZString from 'lz-string';
 
-export type PredicateFunctionType =
-  | null
-  | PredicateFunction
-  | Array<PredicateFunction>
-  | Function;
+export type PredicateFunctionType = null | PredicateFunction | Function;
 
 export interface IPredicate {
   // Actual extension actions to perform.
@@ -58,18 +55,23 @@ export class Predicate implements IPredicate {
   run(): Date | void {
     if (!this.fn) return;
     this.passedAt = null;
-    if (Array.isArray(this.fn)) {
-      for (const fn of this.fn) {
-        if (!fn()) {
-          return;
-        }
-      }
-    } else {
-      if (!this.fn()) {
-        return;
-      }
+    if (!this.fn()) {
+      return;
     }
     this.passedAt = new Date();
     return this.passedAt;
+  }
+
+  toJson(): object {
+    const obj: any = {
+      name: this.name,
+      passedAt: this.passedAt
+    };
+
+    if (this.fn) {
+      obj.fn = LZString.compressToBase64(String(this.fn));
+    }
+
+    return obj;
   }
 }

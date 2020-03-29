@@ -5,7 +5,7 @@ import { Predicate } from 'types/predicate';
  */
 export const HasJquery = new Predicate({
   fn: () => !!window['jQuery'],
-  name: 'HasjQuery'
+  name: 'Has jQuery'
 });
 
 export default HasJquery;

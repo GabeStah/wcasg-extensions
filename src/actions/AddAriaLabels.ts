@@ -39,7 +39,7 @@ export const Export = new Action({
       });
     });
   },
-  name: 'AddAriaLabels'
+  name: 'Add Aria Labels'
 });
 
 export default Export;

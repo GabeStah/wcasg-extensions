@@ -1,1 +1,53 @@
-[{"action":{"name":"AddAriaLabels"},"description":"Adds missing 'aria-label' attributes with most relevant text value to all buttons, labels, and primary text elements.","enabled":true,"name":"AddMissingAriaLabels","predicate":[{"name":"HasWordpress"}]},{"action":{"name":"AddSrClasses"},"description":"Adds 'sr-only' and 'sr-only-focusable' attributes to all buttons, labels, and primary text elements.","enabled":false,"name":"AddScreenReaderOnlyClasses","predicate":{"name":"HasBootstrap"}},{"action":{"name":"DisableJqueryFx"},"description":"Disables all jQuery animations.","enabled":true,"name":"DisableAnimations","predicate":{"name":"HasjQuery"}}]
+[
+  {
+    "description": "Adds missing 'aria-label' attributes with most relevant text value to all buttons, labels, and primary text elements.",
+    "enabled": true,
+    "name": "Add Missing Aria Labels",
+    "action": [
+      {
+        "name": "Add Aria Labels",
+        "fn": "GYVwdgxgLglg9mABMMAKAlIg3gKEfxANwEMAnRMOAEwFMBnRAXkSrghAFsawoA6ARxA1SATwDKNADY1ocUgEFJk1AG0A5ACMQUKAjUAaRGsnENUg0ZhgADtotq6UmVHtQaADyhkaxe9IDm3FT2dNbEYPa+hmoAFgCM9jEATIkAzIkALIkArIkAbGoAurwAVnBWqPbo6ADceAQwwIioAISUtAwAPp0U1PS80mD+UDFMjMwADJikNFAgpGB1BL0dvMByAKLEEDGooJCwCM1OXDyYuMv4APRXiADCMTIA1shyiB4wdLBDiCZmkvVlo1jtJTnxAlB5DpSDAtG5KmQYMQALR/czVRAzOYLGqIG6IADis0QZi+iDcnle5DRkl4OEBBBI5ApUCYiAA+ojiCoAES0YDEECSKA84oQjag7hQAAqHigqAul3wJylAC53pKeAz8ABfWp424SVkkSRCOn0pXs7QwSQwKAiXn8wXC0W8RxQAByfQAasRTTQFdqCO0aOqVTx9EH8PbrKGOdbbfbeAARADyAFlff7pSJY7woVAYXCaJGlfgwMQuOq1FzUaZzKWyyahOqWUG9UsCB36jqgA="
+      }
+    ],
+    "predicate": [
+      {
+        "name": "Has Wordpress",
+        "fn": "GYVwdgxgLglg9mABMMAKAlIg3gKEfxANwEMAnRMOAEwFNEBeRKuCEAWxrCgDoBHEGqQCeAZRoAbGtDikAguPGoA5ByjEA2hARROUAHr0ARAHUZVAAqkaAZ2uGAukvQBuHHgIxgiVJVqIAZP4U1DTqAAz2mLgEBFZQIKRIAIRJvqERrjEAvm4xcQlIwMTi1jSZiFlAA=="
+      }
+    ]
+  },
+  {
+    "description": "Adds 'sr-only' and 'sr-only-focusable' attributes to all buttons, labels, and primary text elements.",
+    "enabled": false,
+    "name": "Add Screen Reader Only Classes",
+    "action": [
+      {
+        "name": "Add Sr Classes",
+        "fn": "GYVwdgxgLglg9mABMMAKAlIg3gKEfxANwEMAnRMOAEwFMBnRAXkSrghAFsawoA6ARxA1SATwDKNADY1ocUgEFJk1AG0A5ACMQUKAjUAaRGsnENUg0ZhgADtotq614mHvF7ACwCMHgEweAzB4ALB4ArB4AbGoAurwAVnBWqPbo6ADceAQwwIioAISUtAwAPsUU1PS80mAA5lDuTIzMAAyYpDRQIKRgGQTlRbzAcgCixBDuqKCQsAi5UjRcPJi4ffgA9GuIdKQAtAiSIpl92bl5APoQdHQqAES0wMQgklA3se7EdADCJleoK6v4Qo0ABciHmiyg+iOqzAxC4oIcu32IjU0PwAF9Utg0QQLldbvdHs9XrxiFQqN8PnQ/ji+kDQeDuJDaQRYfCjNs9mADqiARj0jj0YgNlskdyRDshuw6KZpDh5QCTvk8dc7jQHk8Xm8PpTfv8AfSwdIIVC+RQ4SCOWKDpK2CAZRppLzVpjliyVQT1UStaTybrqfq+YbGTxTWbzezEVybVL7bKaM6AZjei7ocnMuigA="
+      }
+    ],
+    "predicate": [
+      {
+        "name": "Has Bootstrap",
+        "fn": "GYVwdgxgLglg9mABMMAKAlIg3gKEfxAJwFMoRCkBCSgdxjABM4aBtAcgCM44oBnKQgEMADmwC6AbjyIAvkA="
+      }
+    ]
+  },
+  {
+    "description": "Disables all jQuery animations.",
+    "enabled": true,
+    "name": "Disable jQuery Animations",
+    "action": [
+      {
+        "name": "Disable jQuery Fx",
+        "fn": "GYVwdgxgLglg9mABMMAKAlIg3gKEfxGYRVAdxjABM5SBtAcgCsBFEAUwCcBPegXUQBkAxOSo0GLdtz4A6YAA9MuAgVHU6TVpx6858mXGDEAvIigd2AbjwEAvjdtA"
+      }
+    ],
+    "predicate": [
+      {
+        "name": "Has jQuery",
+        "fn": "GYVwdgxgLglg9mABMMAKAlIg3gKEfxAJwFMoRCkBCSgdxjABM4aBtAcgCsBFEYwgTzYBdANx5EAXyA=="
+      }
+    ]
+  }
+]

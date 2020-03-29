@@ -39,4 +39,5 @@ export declare class Extension implements IExtension {
     runPredicates(): boolean;
     toJson(): string;
     toObject(): any;
+    toString(): string;
 }

@@ -1,5 +1,5 @@
 import { PredicateFunction } from 'types/function';
-export declare type PredicateFunctionType = null | PredicateFunction | Array<PredicateFunction> | Function;
+export declare type PredicateFunctionType = null | PredicateFunction | Function;
 export interface IPredicate {
     fn: PredicateFunctionType;
     name: string;
@@ -23,4 +23,5 @@ export declare class Predicate implements IPredicate {
     passedAt?: Date | null;
     constructor(params: IPredicateParams);
     run(): Date | void;
+    toJson(): object;
 }

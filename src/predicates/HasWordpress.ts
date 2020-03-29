@@ -11,7 +11,7 @@ export const HasWordpress = new Predicate({
     }
     return false;
   },
-  name: 'HasWordpress'
+  name: 'Has Wordpress'
 });
 
 export default HasWordpress;

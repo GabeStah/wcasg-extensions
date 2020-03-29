@@ -6,7 +6,7 @@ export const Export = new Action({
       window['jQuery'].fx.off = true;
     }
   },
-  name: 'DisableJqueryFx'
+  name: 'Disable jQuery Fx'
 });
 
 export default Export;

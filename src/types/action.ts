@@ -1,11 +1,8 @@
 import { ActionFunction } from 'types/function';
+import LZString from 'lz-string';
 import Logger from '@/logger';
 
-export type ActionFunctionType =
-  | null
-  | ActionFunction
-  | Array<ActionFunction>
-  | Function;
+export type ActionFunctionType = null | ActionFunction | Function;
 
 export interface IAction {
   fn: ActionFunctionType;
@@ -30,13 +27,19 @@ export class Action implements IAction {
   run(): boolean {
     if (!this.fn) return false;
     Logger.log(`  Running '${this.name}' action.`);
-    if (Array.isArray(this.fn)) {
-      for (const fn of this.fn) {
-        fn();
-      }
-    } else {
-      this.fn();
-    }
+    this.fn();
     return true;
+  }
+
+  toJson(): object {
+    const obj: any = {
+      name: this.name
+    };
+
+    if (this.fn) {
+      obj.fn = LZString.compressToBase64(String(this.fn));
+    }
+
+    return obj;
   }
 }

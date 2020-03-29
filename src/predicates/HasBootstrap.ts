@@ -5,7 +5,7 @@ import { Predicate } from 'types/predicate';
  */
 export const HasBootstrap = new Predicate({
   fn: () => !!window['bootstrap'],
-  name: 'HasBootstrap'
+  name: 'Has Bootstrap'
 });
 
 export default HasBootstrap;

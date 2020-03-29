@@ -34,7 +34,7 @@ export const Export = new Action({
       }
     });
   },
-  name: 'AddSrClasses'
+  name: 'Add Sr Classes'
 });
 
 export default Export;

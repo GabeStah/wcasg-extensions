@@ -133,6 +133,43 @@ export class Extension implements IExtension {
   }
 
   toObject(): any {
-    return this;
+    let actions: any = [];
+    let predicates: any = [];
+    if (this.action) {
+      if (Array.isArray(this.action)) {
+        actions = this.action.map(action => action.toJson());
+      } else {
+        actions.push(this.action.toJson());
+      }
+    }
+
+    if (this.predicate) {
+      if (Array.isArray(this.predicate)) {
+        predicates = this.predicate.map(predicate => predicate.toJson());
+      } else {
+        predicates.push(this.predicate.toJson());
+      }
+    }
+
+    let obj: any = {
+      description: this.description,
+      enabled: this.enabled,
+      firedAt: this.firedAt,
+      name: this.name
+    };
+
+    if (actions.length > 0) {
+      obj.action = actions;
+    }
+
+    if (predicates.length > 0) {
+      obj.predicate = predicates;
+    }
+
+    return obj;
+  }
+
+  toString(): string {
+    return JSON.stringify(this.toObject());
   }
 }

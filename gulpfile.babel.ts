@@ -37,7 +37,7 @@ gulp.task('build:extensions:json', done => {
   try {
     const collection = extensions.manager.extensions.map(
       (extension: Extension) => {
-        return extension;
+        return extension.toObject();
       }
     );
     fs.writeFileSync(
