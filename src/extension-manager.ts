@@ -43,7 +43,7 @@ export class ExtensionManager implements IExtensionManager {
 
   processCustomImports() {
     this.imports
-      .filter((extension: any) => !extension.imported)
+      // .filter((extension: any) => !extension.imported)
       .forEach(
         ({
           name,
@@ -67,47 +67,81 @@ export class ExtensionManager implements IExtensionManager {
               enabled_at && DateUtility.getUTCDate(enabled_at) <= new Date();
           }
 
-          // Check that no matching extension exists
+          Logger.log(`Importing '${name}' extension.`);
+
+          const actionCollection: Action[] = [];
+          if (actions) {
+            actions.forEach((action: any) => {
+              let func = LZString.decompressFromBase64(action.function);
+
+              if (typeof func !== 'function') {
+                if (func.trim().startsWith('function')) {
+                  func = func.substring(
+                    func.indexOf('{') + 1,
+                    func.lastIndexOf('}')
+                  );
+                }
+                // Convert to function
+                func = Function(func);
+              }
+
+              actionCollection.push(
+                new Action({
+                  fn: func,
+                  name: action.name
+                })
+              );
+            });
+          }
+
+          // Check for function string
+          // regex: function\s+\w+\(\)\s*{
+          // t.trim().startsWith('function')
+          // Function(t.substring(t.indexOf("{") + 1, t.lastIndexOf("}")))()
+
+          const predicateCollection: Predicate[] | null = [];
+          if (predicates) {
+            predicates.forEach((predicate: any) => {
+              let func = LZString.decompressFromBase64(predicate.function);
+              if (typeof func !== 'function') {
+                if (func.trim().startsWith('function')) {
+                  func = func.substring(
+                    func.indexOf('{') + 1,
+                    func.lastIndexOf('}')
+                  );
+                }
+                // Convert to function
+                func = Function(func);
+              }
+
+              const newPredicate = new Predicate({
+                fn: func,
+                name: predicate.name
+              });
+
+              predicateCollection.push(newPredicate);
+            });
+          }
+
+          // Check for matching extension
           const match = this.extensions.find(
             (extension: Extension) => extension.name === name
           );
-          if (!match) {
-            Logger.log(`Importing custom '${name}' extension.`);
 
-            const actionCollection: Action[] = [];
-            if (actions) {
-              actions.forEach((action: any) => {
-                actionCollection.push(
-                  new Action({
-                    fn: Function(
-                      LZString.decompressFromBase64(action.function)
-                    ),
-                    name: action.name
-                  })
-                );
-              });
-            }
-
-            const predicateCollection: Predicate[] | null = [];
-            if (predicates) {
-              predicates.forEach((predicate: any) => {
-                predicateCollection.push(
-                  new Predicate({
-                    fn: Function(
-                      LZString.decompressFromBase64(predicate.function)
-                    ),
-                    name: predicate.name
-                  })
-                );
-              });
-            }
-
+          if (match) {
+            // Update existing
+            match.action = actionCollection;
+            match.description = description;
+            match.enabled = enabledBySite;
+            match.predicate = predicateCollection;
+          } else {
+            // Create new
             const extension = new Extension({
               action: actionCollection,
               description: description,
               enabled: enabledBySite,
               name: name,
-              predicate: predicates ? predicateCollection : undefined
+              predicate: predicateCollection
             });
 
             this.add(extension);
