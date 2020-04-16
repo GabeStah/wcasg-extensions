@@ -37,7 +37,10 @@ export class ExtensionManager implements IExtensionManager {
     this.extensions.push(extension);
   }
 
-  addImports(extensions: any[]) {
+  addImports(extensions: any[], purgeExisting: boolean = false) {
+    if (purgeExisting) {
+      this._extensions = [];
+    }
     this.imports = extensions;
   }
 
