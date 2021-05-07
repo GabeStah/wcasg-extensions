@@ -1,9 +1,10 @@
 {
   "name": "wcasg-extensions",
   "version": "1.0.0",
-  "author": "Gabe Wyatt <gabe@solarixdigital.com>",
-  "repository": "git@gitlab.solarixdigital.com:solarix/wcasg/extensions.git",
-  "license": "MIT",
+  "author": "Gabe Wyatt <gabe@gabewyatt.com>",
+  "description": "Static and dynamic extensions for the WCASG Widget",
+  "repository": "git@github.com:GabeStah/wcasg-extensions.git",
+  "license": "Copyright WCASG 2021",
   "config": {
     "outputDirectory": "dist"
   },

@@ -1,5 +1,7 @@
 # WCASG Extensions Package
 
+Provides dynamic extensibility for the [WCAGG Widget](https://github.com/GabeStah/wcasg-widget) through a series of event hooks, predicates, and actions.  These extensions can be statically created by developers (i.e. within this project) or dynamically added to the WCASG Widget payload via the [WCASG Dashboard](https://github.com/GabeStah/wcasg-dashboard) admin panel, as created by Users.
+
 ## Predicate
 
 - [Predicate Model](src/types/predicate.ts#L47)
